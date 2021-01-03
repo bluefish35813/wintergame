@@ -11,7 +11,7 @@ var mapplan = [
     "      --  -                               ---           -- ",
     " ---             ---       --                   -  --      ",
     "                                                           ",
-    "      ---              ...                ---              ",
+    "      ---              ...             -  ---              ",
     "                     - ---   --   --                       ",
     "            -----                                          ",
     "      --  -                            ---                 ",
@@ -37,15 +37,18 @@ var keys = {
 };
 
 var gravity = 0.4;
-var friction = 0.5;
+var friction = 0.6;
 
-var num = 64;
-var num2 = 0;
+var num = 65;
+var num2 = 5;
 
 var platforms = [];
 var collectibles = [];
+var removedc = [];
+var tfvar = [true,true,true,true,true];
 var winobj = [];
 win = false;
+var score = 0;
 function render() {
     base_image = new Image();
     base_image.src = '/cloudbkrd5.png';
@@ -59,12 +62,16 @@ function render() {
     }
     ctx.fillStyle = "#2779A5";
     for (i = 0; i < num2; i++) {
-        ctx.fillRect(collectibles[i].x, collectibles[i].y, collectibles[i].width, collectibles[i].height);
+        if (tfvar[i] == true) {
+            ctx.fillRect(collectibles[i].x, collectibles[i].y, collectibles[i].width, collectibles[i].height);
+        }
     }
     if (win == true) {
         ctx.font = "30px Arial";
-        ctx.fillText("You Win!!!", 10, 50); 
+        ctx.fillText("You Win!!!", 450, 50); 
     }
+    ctx.font = "30px Arial";
+    ctx.fillText("Score: " + score, 10, 50);
 }
 function createobjects(){
     for (i = 0; i < mapplan.length; i++) {
@@ -83,7 +90,7 @@ function createobjects(){
                 collectibles.push(
                     {
                     x: 30 * j + 10,
-                    y: 30 * i + 10,
+                    y: 30 * i + 15,
                     width: 10,
                     height: 10,
                     }
@@ -183,8 +190,14 @@ function loop() {
         }
     }
     for(d = 0; d < num2; d++) {
-        if(collectibles[d].x < player.x && player.x < collectibles[d].x + collectibles[d].width &&
-            collectibles[d].y < player.y && player.y < collectibles[d].y + collectibles[d].height){
+        if(collectibles[d].x < player.x + player.width &&
+            collectibles[d].x + collectibles[d].width > player.x &&
+            collectibles[d].y < player.y + player.height &&
+            collectibles[d].height + collectibles[d].y > player.y){
+                if (tfvar[d] == true) {
+                    score++;
+                }
+                tfvar[d] = false;
                 ctx.beginPath();
                 ctx.fillStyle = "rgba(0, 0, 0, 0)";
                 ctx.fillRect(collectibles[d].x,collectibles[d].y,collectibles[d].width, collectibles[d].height);
@@ -196,7 +209,7 @@ function loop() {
         winobj[0].y < player.y && player.y < winobj[0].y + winobj[0].height){
             win = true;
             ctx.font = "30px Arial";
-            ctx.fillText("You Win!!!", 10, 50);            
+            ctx.fillText("You Win!!!", 300, 50);            
 
     }
     if (i > -1){
@@ -235,7 +248,7 @@ for (i = 0; i < mapplan.length; i++) {
             collectibles.push(
                 {
                 x: 30 * j + 10,
-                y: 30 * i + 10,
+                y: 30 * i + 15,
                 width: 10,
                 height: 10,
                 }
