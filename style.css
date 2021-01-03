@@ -1,0 +1,29 @@
+html, body{
+	width:100%;
+	height:100%;
+}
+
+body{
+	margin:0px;
+	padding:0px;
+	background:#394372;
+	background-size:cover;
+	background-position: center center;
+	background-repeat: no-repeat;
+}
+
+canvas {
+    background-color: #394372;
+    display: inline;
+}
+
+#canvas-container {
+    text-align:center;
+ }
+ 
+
+h1 {
+    color: white;
+    text-align: center;
+    font-family: Arial, Helvetica, sans-serif;
+}
